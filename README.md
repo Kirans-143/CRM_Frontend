@@ -13,3 +13,5 @@
 # npm install axios
 
 # now go to render => copy the crm backend url
+
+# npm i react-router-dom => for routing purpose

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { userLogin, userSignUp } from "../api/auth";
+import { userLogin, userSignUp } from "../../api/auth";
 
 function Login() {
   const [userId, setUserId] = useState("");
