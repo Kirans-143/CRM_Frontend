@@ -1,21 +1,25 @@
-import { useState } from "react";
 import "./App.css";
 import Login from "./pages/login/Login";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Admin from "./pages/admin/Admin";
-import Customer from "./pages/customer/Customer";
-import Engineer from "./pages/engineer/Engineer";
+import Customer from "./pages/Customer";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "@coreui/coreui/dist/css/coreui.min.css";
+import "@coreui/coreui/dist/js/coreui.min.js";
+
+//import Admin from "./pages/admin/Admin";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/customer" element={<Customer />} />
-        <Route path="/engineer" element={<Engineer />} />
+        {localStorage.getItem("userTypes") === "CUSTOMER" && (
+          <Route path="/customer" element={<Customer />} />
+        )}
+        {/* {localStorage.getItem("userTypes") === "ADMIN" && (
+          <Route path="/admin" element={<Admin />} />
+        )} */}
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

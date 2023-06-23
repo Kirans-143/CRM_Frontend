@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { userLogin, userSignUp } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [userId, setUserId] = useState("");
@@ -10,6 +11,7 @@ function Login() {
   const [userType, setUserType] = useState("CUSTOMER");
   const [showSignUp, setShowSignUp] = useState(false);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const loginFn = (e) => {
     e.preventDefault();
@@ -18,10 +20,20 @@ function Login() {
       password: password,
     };
     userLogin(data)
-      .then((res) => {
-        console.log("Login data is " + JSON.stringify(res.data));
-        console.log("Login Successful");
-        setMessage("Login Successful");
+      .then((response) => {
+        localStorage.setItem("name", response.data.name);
+        localStorage.setItem("userId", response.data.userId);
+        localStorage.setItem("email", response.data.email);
+        localStorage.setItem("userTypes", response.data.userTypes);
+        localStorage.setItem("userStatus", response.data.userStatus);
+        localStorage.setItem("token", response.data.accessToken);
+        if (response.data.userTypes === "CUSTOMER") navigate("/customer");
+        else if (response.data.userTypes === "ENGINEER") navigate("/engineer");
+        else if (response.data.userTypes === "ADMIN") navigate("/admin");
+        else navigate("/");
+        console.log("Login data is " + JSON.stringify(response.data));
+        console.log("Login is Successful");
+        setMessage("Login is successful");
       })
       .catch((error) => {
         console.log("Error occured during login " + JSON.stringify(error));

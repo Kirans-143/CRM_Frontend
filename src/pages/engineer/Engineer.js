@@ -9,24 +9,24 @@ function Engineer() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let token = localStorage.getItem("CrmToken");
-    if (token) {
-      let name = localStorage.getItem("CrmUserName");
-      let type = localStorage.getItem("CrmUserType");
+  // useEffect(() => {
+  //   let token = localStorage.getItem("CrmToken");
+  //   if (token) {
+  //     let name = localStorage.getItem("CrmUserName");
+  //     let type = localStorage.getItem("CrmUserType");
 
-      if (name && type && type == "ENGINEER") {
-        setUser({
-          name: name,
-          userType: type,
-        });
-      } else {
-        navigate("/");
-      }
-    } else {
-      navigate("/");
-    }
-  }, []);
+  //     if (name && type && type == "ENGINEER") {
+  //       setUser({
+  //         name: name,
+  //         userType: type,
+  //       });
+  //     } else {
+  //       navigate("/");
+  //     }
+  //   } else {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   return (
     <h1>
@@ -34,5 +34,3 @@ function Engineer() {
     </h1>
   );
 }
-
-export default Engineer;

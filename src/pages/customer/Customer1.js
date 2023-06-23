@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Customer() {
+function Customer1() {
   let [user, setUser] = useState({
     name: "",
     userType: "",
@@ -34,4 +34,4 @@ function Customer() {
   );
 }
 
-export default Customer;
+export default Customer1;
