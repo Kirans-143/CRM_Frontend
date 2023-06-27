@@ -1,13 +1,15 @@
 import MaterialTable from "@material-table/core";
 import { useEffect, useState } from "react";
-import { fetchTicket } from "../api/ticket";
+import { fetchTicket, createTicketApi } from "../api/ticket";
 import Sidebar from "../component/Sidebar";
 import { Button, Modal } from "react-bootstrap";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 
 function Customer() {
   const [ticketDetails, setTicketDetails] = useState([]);
   const [message, setMessage] = useState("");
   const [createTicketModal, setCreateTicketModal] = useState(false);
+  const [priority, setPriority] = useState("");
   const columns = [
     {
       title: "ID",
@@ -52,6 +54,27 @@ function Customer() {
         );
       });
   }
+
+  const createTicket = (e) => {
+    e.preventDefault();
+
+    const data = {
+      title: e.target.title.value,
+      description: e.target.description.value,
+      priority: priority,
+    };
+    console.log("Data for creating ticket is " + JSON.stringify(data));
+
+    createTicketApi(data)
+      .then((response) => {
+        setCreateTicketModal(false);
+        setMessage("Ticket created successfully");
+        fetchTicketData();
+      })
+      .catch((err) => {
+        setMessage(err.message);
+      });
+  };
   return (
     <div className="bg-light vh-100">
       <Sidebar />
@@ -85,8 +108,8 @@ function Customer() {
           >
             <Modal.Header closeButton>Create a new Ticket</Modal.Header>
             <Modal.Body>
-              <form>
-                <div className="input-group" m-1>
+              <form onSubmit={createTicket}>
+                <div className="input-group m-1">
                   <label className="label label-md input-group-text">
                     Title
                   </label>
@@ -97,6 +120,36 @@ function Customer() {
                     required
                   />
                 </div>
+
+                <div className="input-group m-1">
+                  <label className="label label-md input-group-text">
+                    Description
+                  </label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="description"
+                    required
+                  />
+                </div>
+                <div className="input-group m-1">
+                  <label className="label label-md input-group-text">
+                    Priority
+                  </label>
+                  <DropdownButton
+                    align="end"
+                    title={priority}
+                    id="priority"
+                    onSelect={(e) => setPriority(e)}
+                    variant="light"
+                  >
+                    <Dropdown.Item eventKey="1">1</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">2</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">3</Dropdown.Item>
+                    <Dropdown.Item eventKey="4">4</Dropdown.Item>
+                  </DropdownButton>
+                </div>
+
                 <div className="d-flex justify-content-end">
                   <Button
                     onClick={() => setCreateTicketModal(false)}

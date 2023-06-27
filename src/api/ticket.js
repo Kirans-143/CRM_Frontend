@@ -9,3 +9,11 @@ export async function fetchTicket() {
     },
   });
 }
+
+export async function createTicketApi(data) {
+  return await axios.post(`${BASE_URL}/crm/api/v1/tickets`, data, {
+    headers: {
+      "x-access-token": localStorage.getItem("token"),
+    },
+  });
+}
