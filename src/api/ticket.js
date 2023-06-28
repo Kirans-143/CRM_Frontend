@@ -17,3 +17,11 @@ export async function createTicketApi(data) {
     },
   });
 }
+
+export async function updateTicketApi(ticketId, data) {
+  return await axios.put(`${BASE_URL}/crm/api/v1/tickets/${ticketId}`, data, {
+    headers: {
+      "x-access-token": localStorage.getItem("token"),
+    },
+  });
+}
