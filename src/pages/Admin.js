@@ -1,11 +1,48 @@
+// import React, { useEffect, useState } from "react";
+// import MaterialTable from "@material-table/core";
+// import { useNavigate } from "react-router-dom";
+
+// function Admin() {
+//   const [user, setUser] = useState({
+//     name: "",
+//     userType: "",
+//   });
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const token = localStorage.getItem("CrmToken");
+//     if (token) {
+//       const name = localStorage.getItem("CrmUserName");
+//       const type = localStorage.getItem("CrmUserType");
+
+//       if (name && type && type == "ADMIN") {
+//         setUser({
+//           name: name,
+//           userType: type,
+//         });
+//       } else {
+//         navigate("/");
+//       }
+//     } else {
+//       navigate("/");
+//     }
+//   }, []);
+//   return (
+//     <h1>
+//       {" "}
+//       Welcome {user?.name} as a {user.userType}
+//     </h1>
+//   );
+// }
+
 import MaterialTable from "@material-table/core";
 import { useEffect, useState } from "react";
 import { fetchTicket, createTicketApi, updateTicketApi } from "../api/ticket";
-import Sidebar from "../component/Sidebar";
+
 import { Button, Modal, ModalBody, ModalHeader, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function Customer() {
+function Admin() {
   const [ticketDetails, setTicketDetails] = useState([]);
   const [message, setMessage] = useState("");
   const [createTicketModal, setCreateTicketModal] = useState(false);
@@ -16,33 +53,34 @@ function Customer() {
   const [closedCount, setClosedCount] = useState(0);
   const [inProgressCount, setInProgressCount] = useState(0);
   const [blockedCount, setBlockedCount] = useState(0);
+  const [getAllTickets, setGetAllTickets] = useState(false);
 
   const updateCurrentSelectedTicket = (data) => setCurrentSelectedTicket(data);
-
+  const [user, setUser] = useState([]);
   const columns = [
     {
       title: "ID",
       field: "_id",
     },
     {
-      title: "TITLE",
-      field: "title",
+      title: "User_ID",
+      field: "userId",
     },
     {
-      title: "DESCRIPTION",
-      field: "description",
+      title: "EMAIL",
+      field: "email",
     },
     {
-      title: "ASSIGNEE",
-      field: "assignee",
+      title: "UserType",
+      field: "userTypes",
     },
     {
-      title: "PRIORITY",
-      field: "ticketPriority",
+      title: "TOKEN",
+      field: "accessToken",
     },
     {
-      title: "STATUS",
-      field: "status",
+      title: "USERSTATUS",
+      field: "userStatus",
     },
   ];
 
@@ -51,7 +89,6 @@ function Customer() {
     fetchTicketCounts();
   }, []);
 
-  // Wrapping the async fetchtickets API
   async function fetchTicketData() {
     await fetchTicket()
       .then((res) => {
@@ -121,11 +158,10 @@ function Customer() {
     const ticket = {
       _id: ticketDetail._id,
       title: ticketDetail.title,
-      description: ticketDetail.description,
-      assignee: ticketDetail.assignee,
-      reporter: ticketDetail.reporter,
-      priority: ticketDetail.ticketPriority,
-      status: ticketDetail.status,
+      email: ticketDetail.email,
+      userTypes: ticketDetail.userTypes,
+      token: ticketDetail.token,
+      userStatus: ticketDetail.userStatus,
     };
     setCurrentSelectedTicket(ticket);
     setUpdateTicketModal(true);
@@ -376,9 +412,16 @@ function Customer() {
             </ModalBody>
           </Modal>
         ) : null}
+
+        <button
+          className="btn btn-lg btn-success form-control"
+          onClick={() => setGetAllTickets(true)}
+        >
+          Get All Tickets
+        </button>
       </div>
     </div>
   );
 }
 
-export default Customer;
+export default Admin;
